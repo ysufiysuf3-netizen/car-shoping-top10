@@ -1,0 +1,1187 @@
+<!DOCTYPE html>
+<html lang="tg">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>AutoLux — 10 мошини 3D</title>
+
+<script type="module"
+src="https://cdn.jsdelivr.net/npm/@google/model-viewer@4.1.0/dist/model-viewer.min.js">
+</script>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    min-height:100vh;
+    font-family:Arial,sans-serif;
+    color:#111;
+
+    background:
+    repeating-linear-gradient(
+        to bottom,
+        #f4f0e7 0px,
+        #f4f0e7 48px,
+        #dfe4e8 49px,
+        #f4f0e7 50px
+    );
+}
+
+/* ================= LOADING ================= */
+
+#loading{
+    position:fixed;
+    inset:0;
+    z-index:99999;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    background:#111;
+    color:#fff;
+
+    transition:.6s;
+}
+
+#loading.hide{
+    opacity:0;
+    visibility:hidden;
+    pointer-events:none;
+}
+
+.loading-box{
+    text-align:center;
+}
+
+.loading-logo{
+    font-family:cursive;
+    font-size:72px;
+    margin-bottom:25px;
+}
+
+.loader{
+    width:65px;
+    height:65px;
+    margin:auto;
+
+    border:5px solid #444;
+    border-top-color:#fff;
+
+    border-radius:50%;
+
+    animation:spin 1s linear infinite;
+}
+
+.loading-text{
+    margin-top:20px;
+    font-size:18px;
+}
+
+@keyframes spin{
+    to{
+        transform:rotate(360deg);
+    }
+}
+
+/* ================= HEADER ================= */
+
+header{
+    position:sticky;
+    top:0;
+    z-index:100;
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    padding:18px 5%;
+
+    background:rgba(248,244,236,.92);
+    backdrop-filter:blur(16px);
+
+    border-bottom:1px solid rgba(0,0,0,.1);
+}
+
+.logo{
+    font-family:cursive;
+    font-size:48px;
+    font-weight:bold;
+}
+
+.header-right{
+    font-family:cursive;
+    font-size:22px;
+}
+
+/* ================= MAIN ================= */
+
+main{
+    width:min(1500px,94%);
+    margin:auto;
+
+    padding:50px 0 80px;
+}
+
+.hero{
+    margin-bottom:40px;
+}
+
+.hero small{
+    color:#777;
+    letter-spacing:5px;
+}
+
+.hero h1{
+    font-family:cursive;
+
+    font-size:
+    clamp(55px,8vw,105px);
+
+    line-height:.9;
+    margin-top:10px;
+}
+
+.hero p{
+    max-width:750px;
+
+    margin-top:20px;
+
+    color:#666;
+
+    font-size:18px;
+    line-height:1.6;
+}
+
+/* ================= 10 CARS ================= */
+
+.cars{
+    display:grid;
+
+    grid-template-columns:
+    repeat(2,minmax(0,1fr));
+
+    gap:20px;
+}
+
+.car-card{
+    position:relative;
+
+    height:420px;
+
+    overflow:hidden;
+
+    border-radius:32px;
+
+    background:
+    radial-gradient(
+        circle at 50% 35%,
+        #555,
+        #252525 50%,
+        #090909
+    );
+
+    color:#fff;
+
+    cursor:pointer;
+
+    box-shadow:
+    0 20px 55px rgba(0,0,0,.22);
+
+    transition:.3s;
+}
+
+.car-card:hover{
+    transform:translateY(-7px);
+
+    box-shadow:
+    0 30px 70px rgba(0,0,0,.30);
+}
+
+.model-mini{
+    position:absolute;
+    inset:0 0 80px 0;
+}
+
+.model-mini model-viewer{
+    width:100%;
+    height:100%;
+
+    --poster-color:transparent;
+
+    background:transparent;
+}
+
+.car-number{
+    position:absolute;
+
+    top:18px;
+    left:18px;
+
+    z-index:5;
+
+    width:46px;
+    height:46px;
+
+    display:grid;
+    place-items:center;
+
+    border-radius:50%;
+
+    background:rgba(255,255,255,.12);
+
+    backdrop-filter:blur(10px);
+
+    font-weight:bold;
+}
+
+.car-info{
+    position:absolute;
+
+    left:22px;
+    right:22px;
+    bottom:18px;
+
+    z-index:5;
+}
+
+.brand{
+    color:#bbb;
+
+    font-size:11px;
+
+    letter-spacing:4px;
+}
+
+.name{
+    font-family:cursive;
+
+    font-size:38px;
+
+    margin-top:4px;
+}
+
+.price{
+    color:#bbb;
+
+    margin-top:4px;
+}
+
+.open{
+    display:inline-block;
+
+    margin-top:12px;
+
+    padding:10px 18px;
+
+    border-radius:50px;
+
+    background:#fff;
+
+    color:#111;
+
+    font-weight:bold;
+}
+
+/* ================= DETAIL ================= */
+
+#detail{
+    display:none;
+
+    margin-top:40px;
+}
+
+.detail-layout{
+    display:grid;
+
+    grid-template-columns:
+    minmax(0,1fr) 380px;
+
+    gap:20px;
+}
+
+.viewer{
+    position:relative;
+
+    min-height:700px;
+
+    overflow:hidden;
+
+    border-radius:35px;
+
+    background:
+    radial-gradient(
+        circle at 50% 35%,
+        #555,
+        #252525 45%,
+        #0d0d0d 100%
+    );
+
+    box-shadow:
+    0 25px 70px rgba(0,0,0,.25);
+}
+
+.main-model{
+    width:100%;
+    height:100%;
+
+    min-height:700px;
+
+    --poster-color:transparent;
+
+    background:transparent;
+}
+
+.viewer-top{
+    position:absolute;
+
+    top:20px;
+    left:20px;
+    right:20px;
+
+    z-index:5;
+
+    display:flex;
+    justify-content:space-between;
+
+    pointer-events:none;
+}
+
+.badge{
+    background:#fff;
+
+    color:#111;
+
+    padding:10px 16px;
+
+    border-radius:50px;
+
+    font-weight:bold;
+}
+
+.hint{
+    color:#fff;
+
+    background:rgba(0,0,0,.45);
+
+    padding:10px 16px;
+
+    border-radius:50px;
+}
+
+.viewer-bottom{
+    position:absolute;
+
+    left:20px;
+    right:20px;
+    bottom:20px;
+
+    z-index:5;
+
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+}
+
+.viewer-bottom button{
+    border:none;
+
+    cursor:pointer;
+
+    padding:11px 17px;
+
+    border-radius:50px;
+
+    background:rgba(255,255,255,.94);
+
+    color:#111;
+}
+
+/* ================= PANEL ================= */
+
+.panel{
+    background:rgba(255,255,255,.94);
+
+    border-radius:30px;
+
+    padding:25px;
+
+    box-shadow:
+    0 20px 50px rgba(0,0,0,.12);
+}
+
+.panel-brand{
+    color:#777;
+
+    font-size:12px;
+
+    letter-spacing:4px;
+}
+
+.panel h2{
+    font-family:cursive;
+
+    font-size:42px;
+
+    margin-top:5px;
+}
+
+.panel-price{
+    font-family:cursive;
+
+    font-size:30px;
+
+    margin:
+    5px 0 25px;
+}
+
+.info{
+    padding:20px;
+
+    border-radius:22px;
+
+    background:#111;
+
+    color:#fff;
+
+    line-height:1.6;
+}
+
+.info h3{
+    font-family:cursive;
+
+    font-size:30px;
+
+    margin-bottom:12px;
+}
+
+.info p{
+    margin:7px 0;
+
+    opacity:.9;
+}
+
+.back{
+    width:100%;
+
+    margin-top:12px;
+
+    padding:14px;
+
+    border:none;
+
+    border-radius:20px;
+
+    cursor:pointer;
+
+    font-family:cursive;
+
+    font-size:19px;
+}
+
+/* ================= STATUS ================= */
+
+.status{
+    padding:25px;
+
+    border-radius:25px;
+
+    background:#111;
+
+    color:#fff;
+
+    font-size:18px;
+
+    text-align:center;
+}
+
+.error{
+    background:#5f1010;
+}
+
+/* ================= MOBILE ================= */
+
+@media(max-width:1000px){
+
+    .detail-layout{
+        grid-template-columns:1fr;
+    }
+
+    .viewer,
+    .main-model{
+        min-height:600px;
+    }
+
+}
+
+@media(max-width:700px){
+
+    .cars{
+        grid-template-columns:1fr;
+    }
+
+    .logo{
+        font-size:35px;
+    }
+
+    .header-right{
+        font-size:16px;
+    }
+
+    .viewer,
+    .main-model{
+        min-height:480px;
+    }
+
+    .hint{
+        display:none;
+    }
+
+}
+</style>
+</head>
+
+<body>
+
+<!-- ================= LOADING ================= -->
+
+<div id="loading">
+
+    <div class="loading-box">
+
+        <div class="loading-logo">
+            AutoLux
+        </div>
+
+        <div class="loader"></div>
+
+        <div class="loading-text">
+            10 модели 3D омода мешаванд...
+        </div>
+
+    </div>
+
+</div>
+
+
+<header>
+
+    <div class="logo">
+        AutoLux
+    </div>
+
+    <div class="header-right">
+        Premium 3D Cars
+    </div>
+
+</header>
+
+
+<main>
+
+<section class="hero">
+
+    <small>
+        AUTOLUX / REAL 3D COLLECTION
+    </small>
+
+    <h1>
+        10 мошини 3D
+    </h1>
+
+    <p>
+        Ин 10 модел аз як коллексияи воқеии
+        GLB гирифта мешаванд. Ҳар кадомро пахш кун
+        ва модели 3D-ро калон тамошо кун.
+    </p>
+
+</section>
+
+
+<!-- ================= CARS ================= -->
+
+<section
+    class="cars"
+    id="cars"
+>
+
+    <div
+        class="status"
+        id="status"
+    >
+        Моделҳои 3D бор шуда истодаанд...
+    </div>
+
+</section>
+
+
+<!-- ================= DETAIL ================= -->
+
+<section id="detail">
+
+<div class="detail-layout">
+
+<div class="viewer">
+
+    <model-viewer
+        id="mainModel"
+        class="main-model"
+        camera-controls
+        auto-rotate
+        shadow-intensity="1"
+        exposure="1.1"
+        environment-image="neutral"
+        interaction-prompt="none">
+    </model-viewer>
+
+
+    <div class="viewer-top">
+
+        <div class="badge">
+            3D VIEW
+        </div>
+
+        <div class="hint">
+            Кашида гардон · Scroll = Zoom
+        </div>
+
+    </div>
+
+
+    <div class="viewer-bottom">
+
+        <button onclick="resetView()">
+            Reset
+        </button>
+
+        <button onclick="frontView()">
+            Front
+        </button>
+
+        <button onclick="sideView()">
+            Side
+        </button>
+
+        <button onclick="rearView()">
+            Rear
+        </button>
+
+        <button onclick="topView()">
+            Top
+        </button>
+
+        <button
+            onclick="toggleRotate()"
+            id="rotateBtn"
+        >
+            Auto Rotate: ON
+        </button>
+
+    </div>
+
+</div>
+
+
+<aside class="panel">
+
+    <div
+        class="panel-brand"
+        id="panelBrand"
+    >
+        3D CAR
+    </div>
+
+
+    <h2 id="panelName">
+        Car
+    </h2>
+
+
+    <div
+        class="panel-price"
+        id="panelPrice"
+    >
+        3D MODEL
+    </div>
+
+
+    <div
+        class="info"
+        id="infoBox"
+    >
+        <h3>
+            3D Model
+        </h3>
+
+        <p>
+            Мошинро аз рӯйхат интихоб кун.
+        </p>
+
+    </div>
+
+
+    <button
+        class="back"
+        onclick="backToCars()"
+    >
+        ← Ба ҳамаи мошинҳо
+    </button>
+
+</aside>
+
+</div>
+
+</section>
+
+</main>
+
+
+<script>
+
+const API =
+"https://api.github.com/repos/Vivekkk-1/3D-Models/contents/Cars";
+
+
+const carsBox =
+document.getElementById("cars");
+
+const statusBox =
+document.getElementById("status");
+
+
+const mainModel =
+document.getElementById("mainModel");
+
+let allCars = [];
+
+
+/* ==========================================
+   NAME CLEANER
+========================================== */
+
+function cleanName(filename){
+
+    let name =
+        filename
+        .replace(".glb","")
+        .replaceAll("_"," ")
+        .replaceAll("%20"," ")
+        .trim();
+
+    return name;
+}
+
+
+/* ==========================================
+   LOAD REAL GLB MODELS
+========================================== */
+
+async function loadCars(){
+
+    try{
+
+        const response =
+            await fetch(API);
+
+
+        if(!response.ok){
+
+            throw new Error(
+                "GitHub API error: "
+                + response.status
+            );
+
+        }
+
+
+        const files =
+            await response.json();
+
+
+        const models =
+            files.filter(
+                file =>
+                    file.name
+                    .toLowerCase()
+                    .endsWith(".glb")
+                    &&
+                    !file.name
+                    .toLowerCase()
+                    .includes("concept")
+            )
+            .slice(0,10);
+
+
+        if(models.length < 10){
+
+            throw new Error(
+                "Камтар аз 10 GLB ёфт шуд."
+            );
+
+        }
+
+
+        allCars =
+            models.map(
+                file => ({
+
+                    name:
+                        cleanName(
+                            file.name
+                        ),
+
+                    brand:
+                        getBrand(
+                            file.name
+                        ),
+
+                    model:
+                        file.download_url
+
+                })
+            );
+
+
+        statusBox.remove();
+
+
+        allCars.forEach(
+            (car,index) =>
+                createCard(
+                    car,
+                    index
+                )
+        );
+
+
+    }catch(error){
+
+        console.error(
+            error
+        );
+
+
+        statusBox.classList.add(
+            "error"
+        );
+
+
+        statusBox.innerHTML = `
+
+            <h3>
+                Моделҳо бор нашуданд
+            </h3>
+
+            <p>
+                GitHub API ё интернет дастрас нест.
+            </p>
+
+            <p>
+                ${error.message}
+            </p>
+
+        `;
+
+    }
+
+}
+
+
+/* ==========================================
+   BRAND
+========================================== */
+
+function getBrand(name){
+
+    const n =
+        name.toLowerCase();
+
+
+    if(n.includes("bmw"))
+        return "BMW";
+
+    if(n.includes("bugatti"))
+        return "BUGATTI";
+
+    if(n.includes("ferrari"))
+        return "FERRARI";
+
+    if(n.includes("dodge"))
+        return "DODGE";
+
+    if(n.includes("ford"))
+        return "FORD";
+
+    if(n.includes("lancia"))
+        return "LANCIA";
+
+    if(n.includes("tesla"))
+        return "TESLA";
+
+    if(n.includes("toyota"))
+        return "TOYOTA";
+
+    return "AUTO";
+
+}
+
+
+/* ==========================================
+   CARD
+========================================== */
+
+function createCard(car,index){
+
+    const card =
+        document.createElement(
+            "div"
+        );
+
+
+    card.className =
+        "car-card";
+
+
+    card.innerHTML = `
+
+        <div class="car-number">
+            ${String(index+1).padStart(2,"0")}
+        </div>
+
+        <div class="model-mini">
+
+            <model-viewer
+                src="${car.model}"
+                camera-controls
+                auto-rotate
+                rotation-per-second="18deg"
+                shadow-intensity="1"
+                exposure="1"
+                environment-image="neutral"
+                interaction-prompt="none">
+            </model-viewer>
+
+        </div>
+
+        <div class="car-info">
+
+            <div class="brand">
+                ${car.brand}
+            </div>
+
+            <div class="name">
+                ${car.name}
+            </div>
+
+            <div class="price">
+                REAL GLB 3D
+            </div>
+
+            <div class="open">
+                Дидани 3D →
+            </div>
+
+        </div>
+    `;
+
+
+    card.onclick =
+        () =>
+            openCar(
+                index
+            );
+
+
+    carsBox.appendChild(
+        card
+    );
+
+}
+
+
+/* ==========================================
+   OPEN ONE CAR
+========================================== */
+
+function openCar(index){
+
+    const car =
+        allCars[index];
+
+
+    document.getElementById(
+        "panelBrand"
+    ).textContent =
+        car.brand;
+
+
+    document.getElementById(
+        "panelName"
+    ).textContent =
+        car.name;
+
+
+    document.getElementById(
+        "panelPrice"
+    ).textContent =
+        "REAL 3D";
+
+
+    mainModel.src =
+        car.model;
+
+
+    document.getElementById(
+        "infoBox"
+    ).innerHTML = `
+
+        <h3>
+            ${car.name}
+        </h3>
+
+        <p>
+            Бренд:
+            ${car.brand}
+        </p>
+
+        <p>
+            Формат:
+            GLB / glTF
+        </p>
+
+        <p>
+            3D model from public repository.
+        </p>
+
+    `;
+
+
+    document.getElementById(
+        "detail"
+    ).style.display =
+        "block";
+
+
+    document.getElementById(
+        "detail"
+    ).scrollIntoView({
+        behavior:"smooth"
+    });
+
+}
+
+
+/* ==========================================
+   CAMERA
+========================================== */
+
+function resetView(){
+
+    mainModel.cameraOrbit =
+        "0deg 75deg auto";
+
+    mainModel.fieldOfView =
+        "auto";
+
+}
+
+
+function frontView(){
+
+    mainModel.cameraOrbit =
+        "0deg 75deg 4m";
+
+}
+
+
+function sideView(){
+
+    mainModel.cameraOrbit =
+        "90deg 75deg 4m";
+
+}
+
+
+function rearView(){
+
+    mainModel.cameraOrbit =
+        "180deg 75deg 4m";
+
+}
+
+
+function topView(){
+
+    mainModel.cameraOrbit =
+        "0deg 10deg 4m";
+
+}
+
+
+function toggleRotate(){
+
+    mainModel.autoRotate =
+        !mainModel.autoRotate;
+
+
+    document.getElementById(
+        "rotateBtn"
+    ).textContent =
+
+        mainModel.autoRotate
+        ? "Auto Rotate: ON"
+        : "Auto Rotate: OFF";
+
+}
+
+
+function backToCars(){
+
+    document.getElementById(
+        "detail"
+    ).style.display =
+        "none";
+
+
+    window.scrollTo({
+
+        top:0,
+
+        behavior:"smooth"
+
+    });
+
+}
+
+
+/* ==========================================
+   START
+========================================== */
+
+setTimeout(
+    () => {
+
+        document
+            .getElementById(
+                "loading"
+            )
+            .classList.add(
+                "hide"
+            );
+
+    },
+    3000
+);
+
+
+loadCars();
+
+</script>
+
+</body>
+</html>
